@@ -229,16 +229,31 @@
             letter-spacing: 0.3px;
         }
 
-        /* ── HERO ── */
+        /* ── HERO — full-screen on all devices ── */
         .hero {
             position: relative;
-            min-height: 100vh;
-            min-height: 100dvh;
+            height: 100vh; /* fallback for older browsers */
+            height: 100dvh; /* dynamic viewport height — modern mobile */
             overflow: hidden;
             display: grid;
             place-items: center;
             isolation: isolate;
+            background: #0a0e14;
         }
+        /* fallback for browsers that don't support dvh */
+        @supports not (height: 100dvh) {
+            .hero {
+                height: 100vh;
+            }
+        }
+        /* extra safety for very short viewports */
+        @media (max-height: 400px) {
+            .hero {
+                height: 100vh;
+                min-height: 320px;
+            }
+        }
+
         .hero-slider {
             position: absolute;
             inset: 0;
@@ -258,6 +273,8 @@
             transition: opacity 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: opacity;
             z-index: 1;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
         .slide.active {
             opacity: 1;
@@ -288,6 +305,7 @@
             max-width: 800px;
             width: 100%;
             backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
         }
         .hero-content h1 {
             margin: 0;
@@ -365,6 +383,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
@@ -955,9 +974,6 @@
             .cards3 {
                 grid-template-columns: 1fr 1fr;
             }
-            .hero {
-                min-height: 560px;
-            }
             .services-wrap {
                 grid-template-columns: 1fr;
             }
@@ -1000,9 +1016,6 @@
                 border-radius: 10px;
             }
 
-            .hero {
-                min-height: 480px;
-            }
             .hero-content {
                 padding: 30px 12px 60px;
             }
@@ -1273,7 +1286,8 @@
         /* landscape phones */
         @media (max-height: 500px) and (orientation: landscape) {
             .hero {
-                min-height: 100vh;
+                height: 100vh;
+                min-height: 360px;
             }
             .hero-content {
                 padding: 20px 12px 40px;
@@ -1319,7 +1333,6 @@
                 <a href="#blog">Blog</a>
                 <a href="#contact">Contact Us</a>
             </nav>
-            <!-- FIXED: callbox with working tel link -->
             <a class="callbox" href="tel:+94786281718">
                 <small>Call for any Query</small>
                 <strong>078 628 1718</strong>
@@ -1340,7 +1353,6 @@
         <a href="#blog">Blog</a>
         <a href="#contact">Contact Us</a>
         <div class="mobile-phone">
-            <!-- FIXED: mobile phone link works -->
             <a href="tel:+94786281718">
                 <small>Call for any Query</small>
                 <strong>078 628 1718</strong>
@@ -1351,7 +1363,7 @@
     <!-- ═══ MAIN ═══ -->
     <main id="home">
 
-        <!-- ── HERO ── -->
+        <!-- ── HERO — full-screen slider ── -->
         <section class="hero">
             <div class="hero-slider" id="heroSlider"></div>
             <div class="hero-content container">
@@ -1415,7 +1427,6 @@
         <div class="emergency">
             <h2>PLUMBING EMERGENCY?<br />CALL NOW!</h2>
             <p>Don't let a small leak become a major disaster. We're on standby 24/7</p>
-            <!-- FIXED: emergency button with working tel link -->
             <a href="tel:+94786281718" class="btn-emergency">📞 078 628 1718 — FREE CALL</a>
         </div>
 
@@ -1543,14 +1554,12 @@
                     <div class="promo gold">
                         <h4>We Have 30+ Years of Experience</h4>
                         <p>Trusted plumbing service for homes and businesses.</p>
-                        <!-- FIXED: Get a Quote button with working tel link -->
-                        <a class="btn btn-primary" href="tel:+94771234567" style="align-self:flex-start; margin-top:10px;">Get a Quote</a>
+                        <a class="btn btn-primary" href="tel:+94786281718" style="align-self:flex-start; margin-top:10px;">Get a Quote</a>
                     </div>
                     <div class="promo blue">
                         <h4>Quick and Reliable Repair</h4>
                         <p>Emergency leaks &amp; pipe burst support.</p>
-                        <!-- FIXED: phone number is now a clickable link -->
-                        <a class="phone" href="tel:+94771234567">☎ 078 628 1718</a>
+                        <a class="phone" href="tel:+94786281718">☎ 078 628 1718</a>
                     </div>
                 </div>
             </div>
@@ -1585,8 +1594,7 @@
                 <h4>Contact Info</h4>
                 <ul>
                     <li>Street 123, Your City</li>
-                    <!-- FIXED: footer phone number is now clickable -->
-                    <li><a class="footer-phone" href="tel:+94771234567">078 628 1718</a></li>
+                    <li><a class="footer-phone" href="tel:+94786281718">078 628 1718</a></li>
                     <li>demo@domain.com</li>
                 </ul>
             </div>
@@ -1612,6 +1620,7 @@
             let current = 0;
             let interval = null;
             let slides = [];
+            let isPaused = false;
 
             // build slides
             images.forEach((src, idx) => {
@@ -1626,16 +1635,20 @@
             images.forEach((_, idx) => {
                 const dot = document.createElement('li');
                 dot.className = 'dot' + (idx === 0 ? ' active' : '');
-                dot.addEventListener('click', function() {
+                dot.setAttribute('role', 'button');
+                dot.setAttribute('aria-label', 'Slide ' + (idx + 1));
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
                     if (interval) clearInterval(interval);
                     goTo(idx);
-                    startAuto();
+                    if (!isPaused) startAuto();
                 });
                 dot.addEventListener('touchstart', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     if (interval) clearInterval(interval);
                     goTo(idx);
-                    startAuto();
+                    if (!isPaused) startAuto();
                 });
                 dotsContainer.appendChild(dot);
             });
@@ -1657,32 +1670,97 @@
 
             function startAuto() {
                 if (interval) clearInterval(interval);
-                interval = setInterval(next, 2500);
+                interval = setInterval(next, 3000);
+            }
+
+            function stopAuto() {
+                if (interval) {
+                    clearInterval(interval);
+                    interval = null;
+                }
             }
 
             startAuto();
 
             const hero = document.querySelector('.hero');
             if (hero) {
+                // Pause on hover (desktop)
                 hero.addEventListener('mouseenter', function() {
-                    if (interval) clearInterval(interval);
-                    interval = null;
+                    isPaused = true;
+                    stopAuto();
                 });
                 hero.addEventListener('mouseleave', function() {
+                    isPaused = false;
                     if (!interval) startAuto();
                 });
+
+                // Pause on touch (mobile) — use a timer to avoid accidental pauses
+                let touchTimer = null;
                 hero.addEventListener('touchstart', function() {
-                    if (interval) clearInterval(interval);
-                    interval = null;
+                    isPaused = true;
+                    stopAuto();
+                    clearTimeout(touchTimer);
                 });
                 hero.addEventListener('touchend', function() {
-                    if (!interval) startAuto();
+                    touchTimer = setTimeout(function() {
+                        isPaused = false;
+                        if (!interval) startAuto();
+                    }, 3000);
+                });
+                // If touch is cancelled, resume after a delay
+                hero.addEventListener('touchcancel', function() {
+                    clearTimeout(touchTimer);
+                    touchTimer = setTimeout(function() {
+                        isPaused = false;
+                        if (!interval) startAuto();
+                    }, 2000);
                 });
             }
 
+            // Preload images for smoother transition
             images.forEach(function(src) {
                 var img = new Image();
                 img.src = src;
+            });
+
+            // Handle visibility change — pause when tab is hidden
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    stopAuto();
+                } else {
+                    if (!isPaused && !interval) {
+                        startAuto();
+                    }
+                }
+            });
+
+            // Handle window resize — ensure hero stays full height
+            function refreshHeroHeight() {
+                // The CSS handles this with vh/dvh, but we force a reflow on orientation change
+                if (hero) {
+                    hero.style.height = '100vh';
+                    // Force reflow
+                    void hero.offsetHeight;
+                    // Use dvh if supported
+                    if (window.CSS && CSS.supports('height', '100dvh')) {
+                        hero.style.height = '100dvh';
+                    }
+                }
+            }
+
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(refreshHeroHeight, 100);
+            });
+
+            window.addEventListener('orientationchange', function() {
+                setTimeout(refreshHeroHeight, 300);
+            });
+
+            // Initial refresh after load
+            window.addEventListener('load', function() {
+                setTimeout(refreshHeroHeight, 100);
             });
         })();
     </script>
