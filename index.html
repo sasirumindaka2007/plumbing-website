@@ -50,7 +50,7 @@
             --line: #e9eef5;
             --soft: #f6f9fc;
             --gold: #f5b21a;
-            --shadow: 0 18px 50px rgba(16, 24, 32, 0.10);
+            --shadow: 0 18px 50px rgba(16, 24, 32, 0.08);
             --radius: 24px;
             --radius-sm: 18px;
             --max: 1180px;
@@ -196,7 +196,7 @@
             flex-shrink: 0;
         }
 
-        /* callbox — fixed bottom-right */
+        /* callbox */
         .callbox {
             background: linear-gradient(135deg, var(--blue), var(--blue-dark));
             color: #fff;
@@ -229,31 +229,18 @@
             letter-spacing: 0.3px;
         }
 
-        /* ── HERO — full-screen on all devices ── */
+        /* ── HERO — Full Screen Slider Optimization ── */
         .hero {
             position: relative;
-            height: 100vh; /* fallback for older browsers */
-            height: 100dvh; /* dynamic viewport height — modern mobile */
+            height: 100vh;
+            height: 100dvh;
             overflow: hidden;
             display: grid;
             place-items: center;
             isolation: isolate;
             background: #0a0e14;
+            width: 100%;
         }
-        /* fallback for browsers that don't support dvh */
-        @supports not (height: 100dvh) {
-            .hero {
-                height: 100vh;
-            }
-        }
-        /* extra safety for very short viewports */
-        @media (max-height: 400px) {
-            .hero {
-                height: 100vh;
-                min-height: 320px;
-            }
-        }
-
         .hero-slider {
             position: absolute;
             inset: 0;
@@ -270,11 +257,9 @@
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0;
-            transition: opacity 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: opacity 1.5s ease-in-out;
             will-change: opacity;
             z-index: 1;
-            transform: translateZ(0);
-            backface-visibility: hidden;
         }
         .slide.active {
             opacity: 1;
@@ -284,62 +269,50 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(105deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.40) 100%);
+            background: linear-gradient(105deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.45) 100%);
             z-index: 3;
             pointer-events: none;
-        }
-        .hero::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.15), transparent 55%);
-            pointer-events: none;
-            z-index: 3;
         }
         .hero-content {
             position: relative;
             z-index: 10;
             text-align: center;
             color: #fff;
-            padding: 40px 16px;
-            max-width: 800px;
+            padding: 0 20px;
+            max-width: 850px;
             width: 100%;
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
         }
         .hero-content h1 {
             margin: 0;
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(3.2rem, 10vw, 6.8rem);
-            line-height: 0.95;
-            letter-spacing: 0.5px;
+            font-size: clamp(2.8rem, 8vw, 6rem);
+            line-height: 1;
             text-transform: uppercase;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            word-break: break-word;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
         .hero-content p {
-            margin: 16px auto 0;
+            margin: 18px auto 0;
             max-width: 520px;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            letter-spacing: 0.18em;
+            font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+            letter-spacing: 0.2em;
             text-transform: uppercase;
             opacity: 0.95;
-            font-weight: 500;
+            font-weight: 600;
         }
         .cta-row {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-top: 28px;
+            gap: 14px;
+            margin-top: 32px;
             flex-wrap: wrap;
         }
         .btn {
             border: 0;
             border-radius: 999px;
-            padding: 14px 28px;
+            padding: 14px 32px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.25s ease;
+            transition: all 0.25s ease;
             display: inline-block;
             text-align: center;
             font-size: 0.95rem;
@@ -364,71 +337,57 @@
 
         .slider-dots {
             position: absolute;
-            bottom: 24px;
+            bottom: 28px;
             left: 0;
             right: 0;
             display: flex;
             justify-content: center;
             gap: 12px;
             z-index: 15;
-            padding: 0 16px;
-            margin: 0;
-            flex-wrap: wrap;
         }
         .dot {
             width: 10px;
             height: 10px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-            flex-shrink: 0;
-            -webkit-tap-highlight-color: transparent;
         }
         .dot.active {
-            background: #fff;
+            background: var(--gold);
             width: 28px;
             border-radius: 12px;
-            background: var(--gold);
-            box-shadow: 0 0 8px rgba(245, 178, 26, 0.6);
-        }
-        .dot:hover {
-            background: var(--blue);
-            transform: scale(1.2);
         }
 
         /* ── SECTIONS ── */
         section {
-            padding: 72px 0;
+            padding: 80px 0;
         }
         .section-title {
             margin: 0 0 12px;
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2rem, 5vw, 4rem);
-            line-height: 1;
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            line-height: 1.1;
             text-align: center;
         }
         .section-sub {
-            margin: 0 auto 30px;
+            margin: 0 auto 40px;
             max-width: 680px;
             text-align: center;
-            color: var(--muted);
+            color: #000;
             font-size: clamp(0.95rem, 1.2vw, 1.1rem);
-            padding: 0 8px;
         }
         .eyebrow {
             color: var(--blue);
             font-weight: 800;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            font-size: clamp(0.7rem, 1vw, 0.82rem);
+            font-size: 0.82rem;
             display: inline-block;
+            margin-bottom: 8px;
         }
 
-        /* ── ABOUT ── */
+        /* ── ABOUT & COUNTER ── */
         .about-grid {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
@@ -437,61 +396,57 @@
         }
         .experience {
             display: flex;
-            gap: 18px;
+            gap: 20px;
             align-items: flex-start;
-            margin-top: 6px;
-            flex-wrap: wrap;
+            margin-top: 12px;
         }
         .experience .big {
-            font-size: clamp(3.6rem, 10vw, 6rem);
+            font-size: clamp(3.8rem, 10vw, 5.5rem);
             line-height: 0.9;
             font-weight: 800;
             color: var(--blue);
             flex-shrink: 0;
+            min-width: 110px;
         }
         .experience h2 {
-            margin: 6px 0 0;
+            margin: 0 0 10px;
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.8rem, 4.5vw, 3.2rem);
-            line-height: 0.95;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            line-height: 1;
         }
         .about-left p {
             color: var(--muted);
-            max-width: 650px;
-            font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+            font-size: 1.05rem;
+            margin-bottom: 14px;
         }
-        .about-left .btn {
-            margin-top: 12px;
-        }
-
         .feature-list {
             display: grid;
-            gap: 14px;
+            gap: 16px;
         }
         .feature-card {
             display: flex;
-            gap: 14px;
+            gap: 16px;
             align-items: flex-start;
             background: #fff;
             border: 1px solid var(--line);
             border-radius: 22px;
-            padding: 16px;
-            box-shadow: 0 10px 30px rgba(15, 31, 57, 0.05);
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(15, 31, 57, 0.03);
         }
         .icon {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 14px;
             display: grid;
             place-items: center;
-            background: rgba(29, 134, 255, 0.10);
+            background: rgba(29, 134, 255, 0.08);
             color: var(--blue);
             flex: 0 0 auto;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
         .feature-card h4 {
             margin: 0 0 4px;
-            font-size: 1rem;
+            font-size: 1.05rem;
         }
         .feature-card p {
             margin: 0;
@@ -565,136 +520,98 @@
             border-color: #000;
         }
         @keyframes pulse {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
         }
 
-        /* ── SERVICES ── */
+        /* ── SERVICES — Consolidated Layout ── */
         .bg-soft {
             background: var(--soft);
         }
-        .services-wrap {
-            display: grid;
-            grid-template-columns: 1fr 360px 1fr;
-            gap: 24px;
-            align-items: stretch;
+        .services-box {
+            background: #eaeecb;
+            border: 1px solid var(--line);
+            border-radius: 32px;
+            padding: 50px 40px;
+            box-shadow: var(--shadow);
         }
-        .service-column {
+        .services-inner-grid {
             display: grid;
-            gap: 16px;
-            align-content: center;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 20px;
         }
         .service-item {
-            background: #fff;
+            background: var(--soft);
             border: 1px solid var(--line);
-            border-radius: 22px;
-            padding: 16px;
-            box-shadow: 0 10px 24px rgba(15, 31, 57, 0.04);
+            border-radius: 20px;
+            padding: 24px;
             display: flex;
-            gap: 14px;
+            gap: 16px;
             align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+        .service-item:hover {
+            background: #ffffff;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(15, 31, 57, 0.06);
+            border-color: var(--blue);
         }
         .service-item h4 {
-            margin: 0 0 4px;
-            font-size: 1rem;
+            margin: 0 0 6px;
+            font-size: 1.1rem;
+            color: var(--ink);
         }
         .service-item p {
             margin: 0;
             color: var(--muted);
-            font-size: 0.9rem;
+            font-size: 0.92rem;
         }
-
-        .highlight-service {
-            background: linear-gradient(180deg, var(--blue), var(--blue-dark));
-            color: #fff;
-            border-radius: 28px;
-            padding: 28px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        .services-footer-cta {
             text-align: center;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-        .highlight-service::after {
-            content: '';
-            position: absolute;
-            inset: auto -40px -60px auto;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.12);
-        }
-        .highlight-service .eyebrow {
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            font-size: 0.75rem;
-            opacity: 0.85;
-            color: #fff;
-        }
-        .highlight-service h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.6rem, 6vw, 3.6rem);
-            line-height: 0.9;
-            margin: 8px 0 14px;
-        }
-        .highlight-service p {
-            font-size: clamp(0.9rem, 1.1vw, 1rem);
-            max-width: 280px;
-            margin: 0 auto 18px;
-        }
-        .highlight-service .btn-primary {
-            background: #fff;
-            color: var(--blue-dark);
+            margin-top: 40px;
         }
 
         /* ── BLOG ── */
         .cards3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
+            gap: 24px;
         }
         .blog-card {
             background: #fff;
             border: 1px solid var(--line);
             border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 14px 36px rgba(15, 31, 57, 0.05);
+            box-shadow: 0 14px 36px rgba(15, 31, 57, 0.04);
             display: flex;
             flex-direction: column;
         }
         .blog-card img {
-            height: 200px;
+            height: 210px;
             width: 100%;
             object-fit: cover;
         }
         .blog-card .body {
-            padding: 18px;
+            padding: 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
         .blog-card .date {
             color: var(--blue);
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             font-weight: 700;
-            letter-spacing: 0.12em;
             text-transform: uppercase;
+            margin-bottom: 6px;
         }
         .blog-card h4 {
-            margin: 8px 0 10px;
-            font-size: 1.1rem;
+            margin: 0 0 10px;
+            font-size: 1.15rem;
             line-height: 1.3;
         }
         .blog-card p {
-            margin: 0 0 14px;
+            margin: 0 0 16px;
             color: var(--muted);
             font-size: 0.95rem;
             flex: 1;
@@ -702,162 +619,197 @@
         .read-more {
             font-weight: 700;
             color: var(--blue);
-            align-self: flex-start;
         }
 
-        /* ── TESTIMONIAL ── */
-        .testimonial-band {
-            background: linear-gradient(180deg, rgba(29, 134, 255, 0.98), rgba(15, 95, 216, 0.98)), url('https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-            color: #fff;
-            padding: 72px 0;
+        /* ── TESTIMONIAL — Refactored to Clean Text Reviews ── */
+        .testimonial-section {
+            padding: 80px 0;
+            background: #59c0c3;
+            overflow: hidden;
         }
-        .testimonial-shell {
-            display: grid;
-            place-items: center;
-        }
-        .testimonial-card {
-            width: min(800px, 100%);
-            padding: 28px 24px;
-            display: grid;
-            gap: 14px;
+        .testimonial-container-wrapper {
             position: relative;
-            background: #fff;
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 360px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            perspective: 1200px;
+        }
+        .carousel-card {
+            position: absolute;
+            bottom: 0;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-origin: bottom center;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(16, 24, 32, 0.06);
+            background: #ffffff;
             border: 1px solid var(--line);
-            border-radius: var(--radius);
-            box-shadow: 0 14px 36px rgba(15, 31, 57, 0.05);
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            user-select: none;
+            overflow: hidden;
+        }
+        .review-box {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+        .quote-icon {
+            font-size: 3.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--blue);
+            line-height: 1;
+            margin-top: -15px;
+            opacity: 0.3;
+        }
+        .review-text {
+            font-size: 0.98rem;
+            color: var(--ink);
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .review-stars {
+            color: var(--gold);
+            font-size: 1rem;
+            margin-bottom: 14px;
+        }
+        .review-user strong {
+            display: block;
+            font-size: 1.05rem;
             color: var(--ink);
         }
-        .testimonial-card .quote {
+        .review-user span {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+        .nav-btn {
             position: absolute;
-            right: 20px;
-            top: 4px;
-            font-size: 4rem;
-            line-height: 1;
-            opacity: 0.12;
-            font-family: 'Cormorant Garamond', serif;
-        }
-        .testimonial-card p {
-            font-size: clamp(0.95rem, 1.1vw, 1.05rem);
-        }
-        .client {
+            bottom: 50%;
+            transform: translateY(50%);
+            z-index: 30;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 14px;
+            justify-content: center;
+            background: #b5b4b4;
+            border: 1px solid var(--line);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
         }
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        .client strong {
-            display: block;
-            font-size: 1rem;
-        }
-        .client small {
-            color: var(--muted);
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
+        .nav-btn:hover { transform: translateY(50%) scale(1.1); }
+        #prevBtn { left: 10px; }
+        #nextBtn { right: 10px; }
 
         /* ── WHY CHOOSE ── */
         .why-grid {
             display: grid;
             grid-template-columns: 0.9fr 1.1fr;
-            gap: 34px;
+            gap: 40px;
             align-items: center;
         }
         .why-image {
-            min-height: 400px;
-            border-radius: 34px;
-            background:
-                radial-gradient(circle at 20% 70%, rgba(29, 134, 255, 0.22), transparent 24%),
-                radial-gradient(circle at 38% 32%, rgba(29, 134, 255, 0.14), transparent 20%),
-                linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)),
-                url('https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            min-height: 420px;
+            border-radius: 32px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
             box-shadow: var(--shadow);
         }
         .why-grid h3 {
-            margin: 0 0 10px;
+            margin: 0 0 12px;
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.2rem, 5vw, 4rem);
-            line-height: 0.95;
-        }
-        .why-grid p {
-            color: var(--muted);
-            font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1;
         }
         .why-points {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin-top: 18px;
+            gap: 16px;
+            margin-top: 24px;
         }
         .why-card {
-            padding: 16px;
+            padding: 20px;
             background: #fff;
             border: 1px solid var(--line);
             border-radius: var(--radius);
-            box-shadow: 0 14px 36px rgba(15, 31, 57, 0.05);
+            box-shadow: 0 10px 30px rgba(15, 31, 57, 0.02);
         }
-        .why-card .icon {
-            width: 38px;
-            height: 38px;
-            font-size: 0.95rem;
-        }
-        .why-card h4 {
-            margin: 8px 0 4px;
-            font-size: 1rem;
-        }
-        .why-card p {
-            margin: 0;
-            font-size: 0.88rem;
-        }
+        .why-card h4 { margin: 8px 0 4px; font-size: 1.05rem; }
+        .why-card p { margin: 0; font-size: 0.88rem; color: var(--muted); }
 
-        /* ── FAQ ── */
+        /* ── FAQ & ACCORDION (Enhanced Sliding Height Animations) ── */
         .faq-grid {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            gap: 26px;
+            gap: 32px;
             align-items: start;
         }
         details {
             background: #fff;
             border: 1px solid var(--line);
             border-radius: 18px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             overflow: hidden;
-            box-shadow: 0 12px 28px rgba(15, 31, 57, 0.04);
+            box-shadow: 0 10px 28px rgba(15, 31, 57, 0.02);
+            /* Height Slider එක සුමටව සිදුවීම සඳහා */
+            transition: border-color 0.35s ease, box-shadow 0.35s ease, height 0.38s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        details[open] {
+            border-color: var(--blue);
+            box-shadow: 0 12px 32px rgba(29, 134, 255, 0.08);
         }
         summary {
             cursor: pointer;
             list-style: none;
-            padding: 16px 18px;
+            padding: 18px 22px;
             font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            font-size: clamp(0.95rem, 1.1vw, 1.05rem);
             user-select: none;
         }
-        summary::-webkit-details-marker {
-            display: none;
+        summary::-webkit-details-marker { display: none; }
+
+        summary span {
+            display: inline-block;
+            font-size: 1.3rem;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s ease;
         }
-        details .answer {
-            padding: 0 18px 18px;
-            color: var(--muted);
-            font-size: clamp(0.92rem, 1vw, 1rem);
+        details[open] summary span {
+            transform: rotate(45deg);
+            color: var(--blue);
         }
 
-        .cta-stack {
-            display: grid;
-            gap: 16px;
+        details .answer {
+            padding: 0 22px 22px;
+            color: var(--muted);
+            font-size: 0.98rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
+        details[open] .answer {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-stack { display: grid; gap: 16px; }
         .promo {
             border-radius: 24px;
-            padding: 22px 20px;
+            padding: 28px;
             color: #fff;
             min-height: 160px;
             display: flex;
@@ -865,464 +817,72 @@
             justify-content: center;
             box-shadow: var(--shadow);
         }
-        .promo h4 {
-            margin: 0 0 8px;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            line-height: 1;
-        }
-        .promo p {
-            font-size: clamp(0.9rem, 1vw, 1rem);
-            opacity: 0.9;
-        }
-        .promo.gold {
-            background: linear-gradient(135deg, #ffcc46, #ef9f00);
-        }
-        .promo.blue {
-            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
-        }
-        .promo .phone {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            font-size: clamp(1.1rem, 1.8vw, 1.3rem);
-            font-weight: 800;
-            color: #fff;
-            transition: opacity 0.2s;
-        }
-        .promo .phone:hover {
-            opacity: 0.85;
-        }
-        .promo .btn {
-            align-self: flex-start;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            padding: 12px 24px;
-        }
+        .promo h4 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; line-height: 1.1; margin-bottom: 6px; }
+        .promo.gold { background: linear-gradient(135deg, #ffcc46, #ef9f00); }
+        .promo.blue { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); }
+        .promo .phone { font-size: 1.4rem; font-weight: 800; color: #fff; margin-top: 10px; }
 
         /* ── FOOTER ── */
         footer {
             background: #111317;
             color: #d5d9e0;
-            padding: 56px 0 20px;
+            padding: 60px 0 24px;
         }
         .footer-grid {
             display: grid;
             grid-template-columns: 1.2fr 1fr 1fr 1fr;
-            gap: 28px;
+            gap: 32px;
         }
-        .footer-grid h4 {
-            margin: 0 0 14px;
-            color: #fff;
-            font-size: 1rem;
-            letter-spacing: 0.03em;
+        .footer-grid h4 { 
+            margin: 0 0 16px; 
+            color: #fff; 
+            font-size: 1.05rem; 
         }
-        .footer-grid ul {
-            margin: 0;
-            padding: 0;
-            display: grid;
-            gap: 8px;
+        .footer-grid ul { 
+            display: grid; 
+            gap: 10px; 
         }
-        .footer-grid a {
-            color: #c8ced8;
-            transition: color 0.2s;
-            font-size: 0.92rem;
+        .footer-grid a { 
+            color: #c8ced8; 
+            font-size: 0.92rem; 
         }
-        .footer-grid a:hover {
-            color: #fff;
-        }
-        .footer-grid p {
-            font-size: 0.92rem;
-            opacity: 0.8;
-        }
-        .footer-grid .footer-phone {
-            color: #c8ced8;
-            font-size: 0.92rem;
-            transition: color 0.2s;
-        }
-        .footer-grid .footer-phone:hover {
-            color: #fff;
+        .footer-grid a:hover { 
+            color: #fff; 
         }
         .copyright {
-            margin-top: 30px;
-            padding-top: 16px;
+            margin-top: 40px;
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             text-align: center;
             color: #9ca6b5;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
         }
 
-        /* ── RESPONSIVE ── */
-
-        /* tablets & small laptops */
+        /* ── MAXIMUM MOBILE RESPONSIVENESS ── */
         @media (max-width: 1024px) {
-            .menu {
-                display: none;
-            }
-            .mobile-menu-btn {
-                display: inline-flex;
-            }
-
-            .about-grid,
-            .services-wrap,
-            .why-grid,
-            .faq-grid,
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            .cards3 {
-                grid-template-columns: 1fr 1fr;
-            }
-            .services-wrap {
-                grid-template-columns: 1fr;
-            }
-            .service-column {
-                grid-template-columns: 1fr 1fr;
-            }
-            .highlight-service {
-                order: -1;
-            }
-            .why-image {
-                min-height: 300px;
-            }
-            .footer-grid {
-                gap: 32px;
-            }
-            .footer-grid>div:first-child {
-                grid-column: 1 / -1;
-            }
+            .menu { display: none; }
+            .mobile-menu-btn { display: inline-flex; }
+            .about-grid, .why-grid, .faq-grid, .footer-grid { grid-template-columns: 1fr; }
+            .services-inner-grid { grid-template-columns: repeat(2, 1fr); }
+            .cards3 { grid-template-columns: 1fr 1fr; }
         }
 
-        /* mobile phones */
         @media (max-width: 640px) {
-            section {
-                padding: 52px 0;
-            }
-            .container {
-                width: calc(100% - 20px);
-            }
-
-            .nav {
-                padding: 10px 0;
-                min-height: 60px;
-            }
-            .brand {
-                font-size: 1.1rem;
-            }
-            .mobile-menu-btn {
-                padding: 6px 12px;
-                font-size: 1.2rem;
-                border-radius: 10px;
-            }
-
-            .hero-content {
-                padding: 30px 12px 60px;
-            }
-            .hero-content h1 {
-                font-size: clamp(2.6rem, 14vw, 4rem);
-            }
-            .hero-content p {
-                font-size: 0.7rem;
-                letter-spacing: 0.12em;
-                margin-top: 10px;
-            }
-            .cta-row {
-                gap: 10px;
-                margin-top: 20px;
-            }
-            .btn {
-                padding: 12px 20px;
-                font-size: 0.85rem;
-                min-width: 120px;
-            }
-            .slider-dots {
-                bottom: 14px;
-                gap: 10px;
-            }
-            .dot {
-                width: 8px;
-                height: 8px;
-            }
-            .dot.active {
-                width: 22px;
-            }
-
-            .experience {
-                flex-direction: column;
-                gap: 6px;
-            }
-            .experience .big {
-                font-size: clamp(3rem, 12vw, 4rem);
-            }
-            .experience h2 {
-                font-size: clamp(1.6rem, 6vw, 2.2rem);
-            }
-            .about-left p {
-                font-size: 0.92rem;
-            }
-            .feature-list {
-                gap: 12px;
-            }
-            .feature-card {
-                padding: 14px;
-                border-radius: 18px;
-            }
-            .feature-card .icon {
-                width: 38px;
-                height: 38px;
-                font-size: 0.95rem;
-                border-radius: 12px;
-            }
-
-            .emergency {
-                padding: 30px 4%;
-            }
-            .emergency h2 {
-                font-size: clamp(1.4rem, 6vw, 2rem);
-            }
-            .emergency p {
-                font-size: 0.85rem;
-                margin-bottom: 16px;
-            }
-            .btn-emergency {
-                padding: 12px 18px;
-                font-size: 0.85rem;
-                max-width: 100%;
-                gap: 8px;
-                border-radius: 10px;
-            }
-
-            .service-column {
-                grid-template-columns: 1fr;
-            }
-            .service-item {
-                padding: 14px;
-                border-radius: 18px;
-                gap: 12px;
-            }
-            .service-item .icon {
-                width: 36px;
-                height: 36px;
-                font-size: 0.85rem;
-                border-radius: 10px;
-            }
-            .highlight-service {
-                padding: 24px 16px;
-                border-radius: 22px;
-            }
-            .highlight-service h3 {
-                font-size: clamp(2.2rem, 8vw, 2.8rem);
-            }
-
-            .cards3 {
-                grid-template-columns: 1fr;
-                gap: 18px;
-            }
-            .blog-card img {
-                height: 160px;
-            }
-            .blog-card .body {
-                padding: 14px;
-            }
-            .blog-card h4 {
-                font-size: 1rem;
-            }
-
-            .testimonial-band {
-                padding: 48px 0;
-            }
-            .testimonial-card {
-                padding: 20px 16px;
-                border-radius: 20px;
-            }
-            .testimonial-card .quote {
-                font-size: 3rem;
-                right: 14px;
-                top: 0;
-            }
-            .avatar {
-                width: 40px;
-                height: 40px;
-            }
-            .client strong {
-                font-size: 0.95rem;
-            }
-
-            .why-grid {
-                gap: 20px;
-            }
-            .why-image {
-                min-height: 220px;
-                border-radius: 24px;
-            }
-            .why-grid h3 {
-                font-size: clamp(1.8rem, 6vw, 2.4rem);
-            }
-            .why-points {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            .why-card {
-                padding: 14px;
-                border-radius: 18px;
-            }
-            .why-card .icon {
-                width: 34px;
-                height: 34px;
-                font-size: 0.85rem;
-            }
-            .why-card h4 {
-                font-size: 0.92rem;
-            }
-            .why-card p {
-                font-size: 0.82rem;
-            }
-
-            .faq-grid {
-                gap: 20px;
-            }
-            summary {
-                padding: 14px 16px;
-                font-size: 0.92rem;
-            }
-            details .answer {
-                padding: 0 16px 16px;
-                font-size: 0.88rem;
-            }
-
-            .promo {
-                padding: 18px 16px;
-                min-height: 130px;
-                border-radius: 20px;
-            }
-            .promo h4 {
-                font-size: clamp(1.3rem, 5vw, 1.8rem);
-            }
-            .promo .phone {
-                font-size: 1rem;
-                margin-top: 6px;
-            }
-            .promo .btn {
-                padding: 10px 18px;
-                font-size: 0.82rem;
-                margin-top: 6px;
-            }
-
-            .cta-stack {
-                gap: 14px;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 24px 16px;
-            }
-            .footer-grid>div:first-child {
-                grid-column: 1 / -1;
-            }
-            .footer-grid h4 {
-                font-size: 0.95rem;
-                margin-bottom: 10px;
-            }
-            .footer-grid ul {
-                gap: 6px;
-            }
-            .footer-grid a,
-            .footer-grid p,
-            .footer-grid .footer-phone {
-                font-size: 0.85rem;
-            }
-            .copyright {
-                font-size: 0.78rem;
-                margin-top: 20px;
-                padding-top: 14px;
-            }
-
-            /* callbox mobile adjustments */
-            .callbox {
-                bottom: 16px;
-                right: 16px;
-                padding: 10px 14px;
-                min-width: 130px;
-                border-radius: 14px;
-                box-shadow: 0 8px 24px rgba(29, 134, 255, 0.35);
-            }
-            .callbox small {
-                font-size: 0.55rem;
-            }
-            .callbox strong {
-                font-size: 0.8rem;
-            }
-        }
-
-        /* very small phones */
-        @media (max-width: 400px) {
-            .why-points {
-                grid-template-columns: 1fr;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .footer-grid>div:first-child {
-                grid-column: 1;
-            }
-            .hero-content h1 {
-                font-size: clamp(2.2rem, 12vw, 3rem);
-            }
-            .btn {
-                padding: 10px 16px;
-                font-size: 0.8rem;
-                min-width: 100px;
-            }
-            .cta-row {
-                gap: 8px;
-            }
-            .brand {
-                font-size: 1rem;
-            }
-        }
-
-        /* landscape phones */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .hero {
-                height: 100vh;
-                min-height: 360px;
-            }
-            .hero-content {
-                padding: 20px 12px 40px;
-            }
-            .hero-content h1 {
-                font-size: clamp(2rem, 10vh, 3.2rem);
-            }
-            .hero-content p {
-                font-size: 0.65rem;
-                margin-top: 6px;
-            }
-            .cta-row {
-                margin-top: 14px;
-            }
-            .btn {
-                padding: 8px 16px;
-                font-size: 0.75rem;
-            }
-            .slider-dots {
-                bottom: 10px;
-                gap: 8px;
-            }
-            .dot {
-                width: 6px;
-                height: 6px;
-            }
-            .dot.active {
-                width: 18px;
-            }
+            section { padding: 60px 0; }
+            .services-box { padding: 30px 20px; }
+            .services-inner-grid, .cards3 { grid-template-columns: 1fr; gap: 16px; }
+            .why-points { grid-template-columns: 1fr; }
+            .testimonial-container-wrapper { height: 380px; }
+            .nav-btn { bottom: 10px; transform: none; }
+            .nav-btn:hover { transform: scale(1.1); }
+            #prevBtn { left: 35%; }
+            #nextBtn { right: 35%; }
+            .callbox { bottom: 16px; right: 16px; min-width: 140px; padding: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ═══ HEADER ═══ -->
     <header class="topbar">
         <div class="container nav">
             <a class="brand" href="#home">Plumb<span>ing</span></a>
@@ -1337,16 +897,13 @@
                 <small>Call for any Query</small>
                 <strong>078 628 1718</strong>
             </a>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">
-                ☰
-            </button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
         </div>
     </header>
 
-    <!-- ═══ MOBILE MENU OVERLAY ═══ -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
-    <div class="mobile-menu-panel" id="mobilePanel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-        <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+    <div class="mobile-menu-panel" id="mobilePanel" role="dialog" aria-modal="true">
+        <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
         <a href="#home">Home</a>
         <a href="#about">About Us</a>
         <a href="#services">Services</a>
@@ -1360,10 +917,8 @@
         </div>
     </div>
 
-    <!-- ═══ MAIN ═══ -->
     <main id="home">
 
-        <!-- ── HERO — full-screen slider ── -->
         <section class="hero">
             <div class="hero-slider" id="heroSlider"></div>
             <div class="hero-content container">
@@ -1377,22 +932,15 @@
             <ul class="slider-dots" id="sliderDots"></ul>
         </section>
 
-        <!-- ── ABOUT ── -->
         <section id="about">
             <div class="container about-grid">
                 <div class="about-left">
                     <span class="eyebrow">About our company</span>
                     <div class="experience">
-                        <div class="big">30</div>
+                        <div class="big" id="experienceCount">0</div>
                         <div>
                             <h2>Years of Experience</h2>
-                            <p>
-                                We deliver dependable plumbing solutions for homes, offices, and commercial spaces.
-                                From emergency repairs to full installations, our team keeps things clean, fast, and professional.
-                            </p>
-                            <p>
-                                Need a quick fix, a full replacement, or a long-term maintenance plan? We make the process simple.
-                            </p>
+                            <p>We deliver dependable plumbing solutions for homes, offices, and commercial spaces. From emergency repairs to full installations, our team keeps things clean, fast, and professional.</p>
                             <a class="btn btn-secondary" href="#services">Read More</a>
                         </div>
                     </div>
@@ -1400,63 +948,45 @@
                 <div class="feature-list">
                     <div class="feature-card">
                         <div class="icon">⚙</div>
-                        <div>
-                            <h4>Certification</h4>
-                            <p>Qualified work with attention to detail and safety.</p>
-                        </div>
+                        <div><h4>Certification</h4><p>Qualified work with attention to detail and safety.</p></div>
                     </div>
                     <div class="feature-card">
                         <div class="icon">★</div>
-                        <div>
-                            <h4>Fair Prices</h4>
-                            <p>Clear, honest pricing with no surprise charges.</p>
-                        </div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">⏱</div>
-                        <div>
-                            <h4>24/7 Opened</h4>
-                            <p>Emergency support for urgent plumbing issues.</p>
-                        </div>
+                        <div><h4>Fair Prices</h4><p>Clear, honest pricing with no surprise charges.</p></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ── EMERGENCY ── -->
         <div class="emergency">
             <h2>PLUMBING EMERGENCY?<br />CALL NOW!</h2>
             <p>Don't let a small leak become a major disaster. We're on standby 24/7</p>
             <a href="tel:+94786281718" class="btn-emergency">📞 078 628 1718 — FREE CALL</a>
         </div>
 
-        <!-- ── SERVICES ── -->
         <section id="services" class="bg-soft">
             <div class="container">
-                <h2 class="section-title">Services We Offered</h2>
-                <p class="section-sub">A clean, modern service grid inspired by your screenshot — ready for your own business text and images.</p>
-                <div class="services-wrap">
-                    <div class="service-column">
+                <div class="services-box">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <span class="eyebrow">What We Do</span>
+                        <h2 class="section-title">Services We Offered</h2>
+                        <p class="section-sub" style="margin-bottom:0;">We handle repairs, fitting, installations, and maintenance with a clean finish and fast response time.</p>
+                    </div>
+                    <div class="services-inner-grid">
                         <div class="service-item"><div class="icon">♨</div><div><h4>Boiler Replacement</h4><p>Reliable boiler upgrades and replacements.</p></div></div>
-                        <div class="service-item"><div class="icon">🚿</div><div><h4>Kitchen Installations</h4><p>Complete sink and fixture fitting.</p></div></div>
-                        <div class="service-item"><div class="icon">🛁</div><div><h4>Bathroom Installations</h4><p>Modern plumbing for bathrooms and suites.</p></div></div>
+                        <div class="service-item"><div class="icon">🚿</div><div><h4>Kitchen Installs</h4><p>Complete sink and fixture fitting professionally.</p></div></div>
+                        <div class="service-item"><div class="icon">🛁</div><div><h4>Bathroom Systems</h4><p>Modern plumbing for clean bathrooms and suites.</p></div></div>
+                        <div class="service-item"><div class="icon">🔥</div><div><h4>Central Heating</h4><p>Efficient heating system support and setups.</p></div></div>
+                        <div class="service-item"><div class="icon">❄</div><div><h4>Conditioning Installs</h4><p>Neat and reliable cooling system integration.</p></div></div>
+                        <div class="service-item"><div class="icon">◫</div><div><h4>Tiling Solutions</h4><p>Premium finishing work that matches perfectly.</p></div></div>
                     </div>
-                    <div class="highlight-service">
-                        <div class="eyebrow">Services we</div>
-                        <h3>Offered</h3>
-                        <p>We handle repairs, fitting, installations, and maintenance with a clean finish and fast response time.</p>
-                        <a class="btn btn-primary" href="#contact">View All Services</a>
-                    </div>
-                    <div class="service-column">
-                        <div class="service-item"><div class="icon">🔥</div><div><h4>Central Heating</h4><p>Efficient heating system support.</p></div></div>
-                        <div class="service-item"><div class="icon">❄</div><div><h4>Conditioning Installs</h4><p>Neat and reliable system installation.</p></div></div>
-                        <div class="service-item"><div class="icon">◫</div><div><h4>Tiling Solutions</h4><p>Finishing work that looks sharp.</p></div></div>
+                    <div class="services-footer-cta">
+                        <a class="btn btn-secondary" href="#contact">View All Premium Services</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ── BLOG ── -->
         <section id="blog">
             <div class="container">
                 <h2 class="section-title">From the Blog</h2>
@@ -1493,45 +1023,33 @@
             </div>
         </section>
 
-        <!-- ── TESTIMONIAL ── -->
-        <section class="testimonial-band">
-            <div class="container testimonial-shell">
-                <div class="testimonial-card">
-                    <div class="quote">“</div>
-                    <div class="client">
-                        <img class="avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80" alt="Client" loading="lazy" />
-                        <div>
-                            <strong>Laura Doe</strong>
-                            <small>Happy Client</small>
-                        </div>
-                    </div>
-                    <p>
-                        Great support, quick service, and very clean work. Everything was handled smoothly from the first call to the final check.
-                    </p>
-                    <strong>Good Support</strong>
+        <section class="testimonial-section">
+            <div class="container">
+                <h2 class="section-title">What Clients Say</h2>
+                <p class="section-sub">Real feedback from our satisfied residential and commercial clients.</p>
+                
+                <div class="testimonial-container-wrapper" id="carousel-container">
+                    <button id="prevBtn" class="nav-btn" aria-label="Previous review">←</button>
+                    <button id="nextBtn" class="nav-btn" aria-label="Next review">→</button>
                 </div>
             </div>
         </section>
 
-        <!-- ── WHY CHOOSE ── -->
         <section>
             <div class="container why-grid">
-                <div class="why-image" aria-label="Water tap and glass visual"></div>
+                <div class="why-image"></div>
                 <div>
                     <span class="eyebrow">What we do</span>
                     <h3>Why Choose Us</h3>
                     <p>Fast service, professional workmanship, clear communication, and fair estimates — all in one place.</p>
                     <div class="why-points">
-                        <div class="why-card"><div class="icon">✓</div><h4>We are Professional</h4><p>Skilled work with neat finishing.</p></div>
-                        <div class="why-card"><div class="icon">⏲</div><h4>Genius Workers</h4><p>Quick diagnosis and efficient repair.</p></div>
-                        <div class="why-card"><div class="icon">🛠</div><h4>Maintenance</h4><p>Ongoing upkeep for long-term reliability.</p></div>
-                        <div class="why-card"><div class="icon">⌁</div><h4>Free Estimate</h4><p>Transparent quotes before work starts.</p></div>
+                        <div class="why-card"><h4>Professional</h4><p>Skilled work with neat finishing.</p></div>
+                        <div class="why-card"><h4>Genius Workers</h4><p>Quick diagnosis and efficient repair.</p></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ── FAQ + CONTACT ── -->
         <section id="contact">
             <div class="container faq-grid">
                 <div>
@@ -1546,8 +1064,8 @@
                         <div class="answer">Yes. We can inspect the issue, explain the fix, and share a clear estimate before any work begins.</div>
                     </details>
                     <details>
-                        <summary>Can this design be customized to my brand? <span>+</span></summary>
-                        <div class="answer">Absolutely. You can change the logo, colors, service list, copy, images, and contact details very easily.</div>
+                        <summary>Is there a warranty on your plumbing fixes? <span>+</span></summary>
+                        <div class="answer">Absolutely. All our premium installations and repair services come with a standard breakdown guarantee.</div>
                     </details>
                 </div>
                 <div class="cta-stack">
@@ -1566,7 +1084,6 @@
         </section>
     </main>
 
-    <!-- ═══ FOOTER ═══ -->
     <footer>
         <div class="container footer-grid">
             <div>
@@ -1578,16 +1095,13 @@
                 <ul>
                     <li><a href="#blog">Fast fixes for leaks</a></li>
                     <li><a href="#blog">Tips for bathrooms</a></li>
-                    <li><a href="#blog">Heating maintenance</a></li>
                 </ul>
             </div>
             <div>
                 <h4>Quick Links</h4>
                 <ul>
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About Us</a></li>
                     <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
             <div>
@@ -1595,229 +1109,248 @@
                 <ul>
                     <li>Street 123, Your City</li>
                     <li><a class="footer-phone" href="tel:+94786281718">078 628 1718</a></li>
-                    <li>demo@domain.com</li>
                 </ul>
             </div>
         </div>
-        <div class="container copyright">© 2025 Plumbing. All rights reserved.</div>
+        <div class="container copyright">© 2026 Plumbing. All rights reserved.<br><br>Designed and developed by Sasiru Mindaka</div>
     </footer>
 
-    <!-- ═══ SLIDER SCRIPT ═══ -->
     <script>
+        // 1. HERO SLIDER LOGIC
         (function() {
             const images = [
                 'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?auto=format&fit=crop&w=1600&q=80',
                 'https://images.unsplash.com/photo-1585762652064-199f37e2b35e?auto=format&fit=crop&w=1600&q=80',
-                'https://images.unsplash.com/photo-1605773527852-c546a8584ea3?auto=format&fit=crop&w=1600&q=80',
-                'https://images.unsplash.com/photo-1559113513-d5e09a78d7e4?auto=format&fit=crop&w=1600&q=80',
-                'https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1600&q=80'
+                'https://images.unsplash.com/photo-1605773527852-c546a8584ea3?auto=format&fit=crop&w=1600&q=80'
             ];
-
             const container = document.getElementById('heroSlider');
             const dotsContainer = document.getElementById('sliderDots');
             if (!container) return;
 
             let current = 0;
-            let interval = null;
             let slides = [];
-            let isPaused = false;
 
-            // build slides
             images.forEach((src, idx) => {
                 const el = document.createElement('div');
                 el.className = 'slide' + (idx === 0 ? ' active' : '');
                 el.style.backgroundImage = 'url(' + src + ')';
                 container.appendChild(el);
                 slides.push(el);
-            });
 
-            // build dots
-            images.forEach((_, idx) => {
                 const dot = document.createElement('li');
                 dot.className = 'dot' + (idx === 0 ? ' active' : '');
-                dot.setAttribute('role', 'button');
-                dot.setAttribute('aria-label', 'Slide ' + (idx + 1));
-                dot.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    if (interval) clearInterval(interval);
-                    goTo(idx);
-                    if (!isPaused) startAuto();
-                });
-                dot.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (interval) clearInterval(interval);
-                    goTo(idx);
-                    if (!isPaused) startAuto();
-                });
+                dot.addEventListener('click', () => goTo(idx));
                 dotsContainer.appendChild(dot);
             });
 
             function goTo(index) {
-                if (index === current) return;
                 slides[current].classList.remove('active');
-                const dots = document.querySelectorAll('.dot');
-                if (dots[current]) dots[current].classList.remove('active');
-
+                dotsContainer.children[current].classList.remove('active');
                 current = index;
                 slides[current].classList.add('active');
-                if (dots[current]) dots[current].classList.add('active');
+                dotsContainer.children[current].classList.add('active');
             }
 
-            function next() {
+            setInterval(() => {
                 goTo((current + 1) % slides.length);
-            }
+            }, 4000);
+        })();
 
-            function startAuto() {
-                if (interval) clearInterval(interval);
-                interval = setInterval(next, 3000);
-            }
+        // 2. EXPERIENCE COUNTER ANIMATION
+        (function() {
+            const counterEl = document.getElementById('experienceCount');
+            const targetValue = 30;
+            let animationStarted = false;
 
-            function stopAuto() {
-                if (interval) {
-                    clearInterval(interval);
-                    interval = null;
-                }
-            }
-
-            startAuto();
-
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                // Pause on hover (desktop)
-                hero.addEventListener('mouseenter', function() {
-                    isPaused = true;
-                    stopAuto();
-                });
-                hero.addEventListener('mouseleave', function() {
-                    isPaused = false;
-                    if (!interval) startAuto();
-                });
-
-                // Pause on touch (mobile) — use a timer to avoid accidental pauses
-                let touchTimer = null;
-                hero.addEventListener('touchstart', function() {
-                    isPaused = true;
-                    stopAuto();
-                    clearTimeout(touchTimer);
-                });
-                hero.addEventListener('touchend', function() {
-                    touchTimer = setTimeout(function() {
-                        isPaused = false;
-                        if (!interval) startAuto();
-                    }, 3000);
-                });
-                // If touch is cancelled, resume after a delay
-                hero.addEventListener('touchcancel', function() {
-                    clearTimeout(touchTimer);
-                    touchTimer = setTimeout(function() {
-                        isPaused = false;
-                        if (!interval) startAuto();
-                    }, 2000);
-                });
-            }
-
-            // Preload images for smoother transition
-            images.forEach(function(src) {
-                var img = new Image();
-                img.src = src;
-            });
-
-            // Handle visibility change — pause when tab is hidden
-            document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    stopAuto();
-                } else {
-                    if (!isPaused && !interval) {
-                        startAuto();
+            function runCounter() {
+                let currentVal = 0;
+                const speed = 40; 
+                const timer = setInterval(() => {
+                    currentVal++;
+                    counterEl.textContent = currentVal;
+                    if (currentVal >= targetValue) {
+                        clearInterval(timer);
                     }
-                }
-            });
-
-            // Handle window resize — ensure hero stays full height
-            function refreshHeroHeight() {
-                // The CSS handles this with vh/dvh, but we force a reflow on orientation change
-                if (hero) {
-                    hero.style.height = '100vh';
-                    // Force reflow
-                    void hero.offsetHeight;
-                    // Use dvh if supported
-                    if (window.CSS && CSS.supports('height', '100dvh')) {
-                        hero.style.height = '100dvh';
-                    }
-                }
+                }, speed);
             }
 
-            let resizeTimer;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(refreshHeroHeight, 100);
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !animationStarted) {
+                        animationStarted = true;
+                        runCounter();
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            if(counterEl) observer.observe(counterEl);
+        })();
+
+        // 3. REFACTORED TEXT TESTIMONIAL 3D CAROUSEL
+        (function() {
+            const reviews = [
+                { name: "Kamal Perera", role: "Homeowner", text: "Excellent plumbing service! They arrived exactly on time and fixed our leaking boiler within an hour. Highly recommended!", stars: "⭐⭐⭐⭐⭐" },
+                { name: "Nimal Silva", role: "Business Owner", text: "Very professional team. Clean work, fair pricing, and honest advice. Will definitely use them again for commercial projects.", stars: "⭐⭐⭐⭐⭐" },
+                { name: "Sunil Fernando", role: "Property Manager", text: "Their 24/7 emergency team saved us from a major pipe burst disaster at midnight. Incredible response time!", stars: "⭐⭐⭐⭐⭐" },
+                { name: "Anura de Silva", role: "Resident", text: "Great attention to detail on our kitchen setup. Sleek finishes, completely mess-free execution.", stars: "⭐⭐⭐⭐" },
+                { name: "Priyantha Bandara", role: "Hotel Manager", text: "Reliable and high-quality solutions. Their team is exceptionally certified and highly trained.", stars: "⭐⭐⭐⭐⭐" }
+            ];
+
+            const positions = {
+                0:  { x: 0,    y: 0,   s: 1.00, ry: 0,   z: 20, op: 1.00, w: 320, h: 280 },
+                1:  { x: 220,  y: -10, s: 0.85, ry: -15, z: 9,  op: 0.65, w: 300, h: 260 },
+                2:  { x: 440,  y: -25, s: 0.70, ry: -30, z: 8,  op: 0.30, w: 280, h: 240 },
+                '-1': { x: -220, y: -10, s: 0.85, ry: 15,  z: 9,  op: 0.65, w: 300, h: 260 },
+                '-2': { x: -440, y: -25, s: 0.70, ry: 30,  z: 8,  op: 0.30, w: 280, h: 240 }
+            };
+
+            let currentIndex = 0;
+            const container = document.getElementById('carousel-container');
+            const cards = [];
+
+            reviews.forEach((review, index) => {
+                const card = document.createElement('div');
+                card.className = 'carousel-card';
+                card.onclick = () => { currentIndex = index; updateCarousel(); };
+
+                card.innerHTML = `
+                    <div class="review-box">
+                        <div class="quote-icon">“</div>
+                        <p class="review-text">${review.text}</p>
+                        <div class="review-stars">${review.stars}</div>
+                        <div class="review-user">
+                            <strong>${review.name}</strong>
+                            <span>${review.role}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+                cards.push(card);
             });
 
-            window.addEventListener('orientationchange', function() {
-                setTimeout(refreshHeroHeight, 300);
+            function updateCarousel() {
+                cards.forEach((card, index) => {
+                    let diff = index - currentIndex;
+                    if (diff < -Math.floor(reviews.length / 2)) diff += reviews.length;
+                    if (diff > Math.floor(reviews.length / 2)) diff -= reviews.length;
+
+                    const pos = positions[diff];
+                    if (pos) {
+                        card.style.transform = `translateX(${pos.x}px) translateY(${pos.y}px) scale(${pos.s}) rotateY(${pos.ry}deg)`;
+                        card.style.zIndex = pos.z;
+                        card.style.opacity = pos.op;
+                        card.style.width = `${pos.w}px`;
+                        card.style.height = `${pos.h}px`;
+                        card.style.pointerEvents = 'auto';
+                        card.style.visibility = 'visible';
+                    } else {
+                        card.style.opacity = 0;
+                        card.style.zIndex = 0;
+                        card.style.pointerEvents = 'none';
+                        card.style.visibility = 'hidden';
+                    }
+                });
+            }
+
+            document.getElementById('prevBtn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentIndex = (currentIndex === 0) ? reviews.length - 1 : currentIndex - 1;
+                updateCarousel();
             });
 
-            // Initial refresh after load
-            window.addEventListener('load', function() {
-                setTimeout(refreshHeroHeight, 100);
+            document.getElementById('nextBtn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentIndex = (currentIndex === reviews.length - 1) ? 0 : currentIndex + 1;
+                updateCarousel();
+            });
+
+            updateCarousel();
+        })();
+
+        // 4. PREMIUM FAQ ACCORDION WITH TRUE HEIGHT SLIDE & AUTO-SCROLL
+        (function() {
+            const faqs = document.querySelectorAll('details');
+            
+            faqs.forEach(faq => {
+                const summary = faq.querySelector('summary');
+                const answer = faq.querySelector('.answer');
+                
+                summary.addEventListener('click', (e) => {
+                    e.preventDefault(); // බ්‍රවුසරයේ native ක්ෂණික jump එක නවත්වයි
+                    
+                    const isOpen = faq.hasAttribute('open');
+                    
+                    if (isOpen) {
+                        // වැසීමේ සුමට Slider ඇනිමේෂන් එක (Slide Up)
+                        const startHeight = faq.offsetHeight;
+                        faq.style.height = `${startHeight}px`;
+                        
+                        faq.offsetHeight; // Reflow forcing
+                        
+                        faq.style.height = `${summary.offsetHeight}px`;
+                        answer.style.opacity = '0';
+                        answer.style.transform = 'translateY(-10px)';
+                        
+                        setTimeout(() => {
+                            faq.removeAttribute('open');
+                            faq.style.height = '';
+                        }, 380);
+                    } else {
+                        // වෙනත් විවෘතව ඇති සියලුම FAQ වසා දැමීම (Accordion Effect)
+                        faqs.forEach(other => {
+                            if (other !== faq && other.hasAttribute('open')) {
+                                other.style.height = `${other.querySelector('summary').offsetHeight}px`;
+                                other.querySelector('.answer').style.opacity = '0';
+                                other.querySelector('.answer').style.transform = 'translateY(-10px)';
+                                setTimeout(() => {
+                                    other.removeAttribute('open');
+                                    other.style.height = '';
+                                }, 380);
+                            }
+                        });
+                        
+                        // විවෘත වීමේ සුමට Slider ඇනිමේෂන් එක (Slide Down)
+                        faq.setAttribute('open', '');
+                        const targetHeight = faq.scrollHeight;
+                        
+                        faq.style.height = `${summary.offsetHeight}px`;
+                        answer.style.opacity = '0';
+                        answer.style.transform = 'translateY(-10px)';
+                        
+                        faq.offsetHeight; // Reflow forcing
+                        
+                        faq.style.height = `${targetHeight}px`;
+                        answer.style.opacity = '1';
+                        answer.style.transform = 'translateY(0)';
+                        
+                        setTimeout(() => {
+                            faq.style.height = '';
+                            // ප්‍රශ්නය තිරය මැදට සුමටව ගෙන ඒම (Auto-Scroll)
+                            faq.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 380);
+                    }
+                });
             });
         })();
-    </script>
 
-    <!-- ═══ MOBILE MENU SCRIPT ═══ -->
-    <script>
+        // 5. MOBILE MENU PANEL TOGGLE
         (function() {
             const menuBtn = document.getElementById('mobileMenuBtn');
             const closeBtn = document.getElementById('mobileMenuClose');
             const overlay = document.getElementById('mobileOverlay');
             const panel = document.getElementById('mobilePanel');
-            const menuLinks = panel.querySelectorAll('a');
 
-            function openMenu() {
-                overlay.classList.add('open');
-                panel.classList.add('open');
-                document.body.style.overflow = 'hidden';
-                menuBtn.setAttribute('aria-expanded', 'true');
+            function toggle() {
+                const open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                document.body.style.overflow = open ? 'hidden' : '';
             }
 
-            function closeMenu() {
-                overlay.classList.remove('open');
-                panel.classList.remove('open');
-                document.body.style.overflow = '';
-                menuBtn.setAttribute('aria-expanded', 'false');
-            }
-
-            if (menuBtn) {
-                menuBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    if (panel.classList.contains('open')) {
-                        closeMenu();
-                    } else {
-                        openMenu();
-                    }
-                });
-            }
-
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeMenu);
-            }
-
-            if (overlay) {
-                overlay.addEventListener('click', closeMenu);
-            }
-
-            menuLinks.forEach(function(link) {
-                link.addEventListener('click', closeMenu);
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && panel.classList.contains('open')) {
-                    closeMenu();
-                }
-            });
+            if(menuBtn) menuBtn.addEventListener('click', toggle);
+            if(closeBtn) closeBtn.addEventListener('click', toggle);
+            if(overlay) overlay.addEventListener('click', toggle);
+            panel.querySelectorAll('a').forEach(l => l.addEventListener('click', toggle));
         })();
     </script>
-
 </body>
 </html>
