@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Plumbing</title>
+    <title>Plumbing — Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -872,12 +872,45 @@
             .services-box { padding: 30px 20px; }
             .services-inner-grid, .cards3 { grid-template-columns: 1fr; gap: 16px; }
             .why-points { grid-template-columns: 1fr; }
-            .testimonial-container-wrapper { height: 380px; }
+            .testimonial-container-wrapper { height: 300px; }
             .nav-btn { bottom: 10px; transform: none; }
             .nav-btn:hover { transform: scale(1.1); }
             #prevBtn { left: 35%; }
             #nextBtn { right: 35%; }
             .callbox { bottom: 16px; right: 16px; min-width: 140px; padding: 10px; }
+        }
+
+        /* ── SCROLL ANIMATIONS (INJECTED) ── */
+        /* Reveal base: hidden until observed */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scale & un-blur for titles and hero elements */
+        .scale-blur {
+            transform: scale(0.95);
+            filter: blur(5px);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, filter;
+        }
+        .scale-blur.revealed {
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        /* Parallax elements: will be moved via JS */
+        .parallax,
+        .parallax-bg {
+            will-change: transform;
         }
     </style>
 </head>
@@ -920,7 +953,7 @@
     <main id="home">
 
         <section class="hero">
-            <div class="hero-slider" id="heroSlider"></div>
+            <div class="hero-slider parallax" id="heroSlider"></div>
             <div class="hero-content container">
                 <h1>Plumbing</h1>
                 <p>WE CAN DO • 24/7 EMERGENCY</p>
@@ -933,7 +966,7 @@
         </section>
 
         <section id="about">
-            <div class="container about-grid">
+            <div class="container about-grid reveal">
                 <div class="about-left">
                     <span class="eyebrow">About our company</span>
                     <div class="experience">
@@ -945,12 +978,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="feature-list">
-                    <div class="feature-card">
+                <div class="feature-list stagger-parent">
+                    <div class="feature-card reveal">
                         <div class="icon">⚙</div>
                         <div><h4>Certification</h4><p>Qualified work with attention to detail and safety.</p></div>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card reveal">
                         <div class="icon">★</div>
                         <div><h4>Fair Prices</h4><p>Clear, honest pricing with no surprise charges.</p></div>
                     </div>
@@ -966,19 +999,19 @@
 
         <section id="services" class="bg-soft">
             <div class="container">
-                <div class="services-box">
+                <div class="services-box reveal">
                     <div style="text-align: center; margin-bottom: 30px;">
                         <span class="eyebrow">What We Do</span>
-                        <h2 class="section-title">Services We Offered</h2>
+                        <h2 class="section-title scale-blur">Services We Offered</h2>
                         <p class="section-sub" style="margin-bottom:0;">We handle repairs, fitting, installations, and maintenance with a clean finish and fast response time.</p>
                     </div>
-                    <div class="services-inner-grid">
-                        <div class="service-item"><div class="icon">♨</div><div><h4>Boiler Replacement</h4><p>Reliable boiler upgrades and replacements.</p></div></div>
-                        <div class="service-item"><div class="icon">🚿</div><div><h4>Kitchen Installs</h4><p>Complete sink and fixture fitting professionally.</p></div></div>
-                        <div class="service-item"><div class="icon">🛁</div><div><h4>Bathroom Systems</h4><p>Modern plumbing for clean bathrooms and suites.</p></div></div>
-                        <div class="service-item"><div class="icon">🔥</div><div><h4>Central Heating</h4><p>Efficient heating system support and setups.</p></div></div>
-                        <div class="service-item"><div class="icon">❄</div><div><h4>Conditioning Installs</h4><p>Neat and reliable cooling system integration.</p></div></div>
-                        <div class="service-item"><div class="icon">◫</div><div><h4>Tiling Solutions</h4><p>Premium finishing work that matches perfectly.</p></div></div>
+                    <div class="services-inner-grid stagger-parent">
+                        <div class="service-item reveal"><div class="icon">♨</div><div><h4>Boiler Replacement</h4><p>Reliable boiler upgrades and replacements.</p></div></div>
+                        <div class="service-item reveal"><div class="icon">🚿</div><div><h4>Kitchen Installs</h4><p>Complete sink and fixture fitting professionally.</p></div></div>
+                        <div class="service-item reveal"><div class="icon">🛁</div><div><h4>Bathroom Systems</h4><p>Modern plumbing for clean bathrooms and suites.</p></div></div>
+                        <div class="service-item reveal"><div class="icon">🔥</div><div><h4>Central Heating</h4><p>Efficient heating system support and setups.</p></div></div>
+                        <div class="service-item reveal"><div class="icon">❄</div><div><h4>Conditioning Installs</h4><p>Neat and reliable cooling system integration.</p></div></div>
+                        <div class="service-item reveal"><div class="icon">◫</div><div><h4>Tiling Solutions</h4><p>Premium finishing work that matches perfectly.</p></div></div>
                     </div>
                     <div class="services-footer-cta">
                         <a class="btn btn-secondary" href="#contact">View All Premium Services</a>
@@ -989,10 +1022,10 @@
 
         <section id="blog">
             <div class="container">
-                <h2 class="section-title">From the Blog</h2>
+                <h2 class="section-title scale-blur">From the Blog</h2>
                 <p class="section-sub">Use this section for tips, service updates, and before/after stories.</p>
-                <div class="cards3">
-                    <article class="blog-card">
+                <div class="cards3 stagger-parent">
+                    <article class="blog-card reveal">
                         <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80" alt="Kitchen sink" loading="lazy" />
                         <div class="body">
                             <div class="date">November 10, 2025</div>
@@ -1001,7 +1034,7 @@
                             <a class="read-more" href="#contact">Read More</a>
                         </div>
                     </article>
-                    <article class="blog-card">
+                    <article class="blog-card reveal">
                         <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80" alt="Bathroom" loading="lazy" />
                         <div class="body">
                             <div class="date">November 14, 2025</div>
@@ -1010,7 +1043,7 @@
                             <a class="read-more" href="#contact">Read More</a>
                         </div>
                     </article>
-                    <article class="blog-card">
+                    <article class="blog-card reveal">
                         <img src="https://images.unsplash.com/photo-1525142399502-1f0d5b7eb0b7?auto=format&fit=crop&w=1200&q=80" alt="Water stream" loading="lazy" />
                         <div class="body">
                             <div class="date">November 14, 2025</div>
@@ -1024,10 +1057,10 @@
         </section>
 
         <section class="testimonial-section">
-            <div class="container">
-                <h2 class="section-title">What Clients Say</h2>
+            <div class="container reveal">
+                <h2 class="section-title scale-blur">What Clients Say</h2>
                 <p class="section-sub">Real feedback from our satisfied residential and commercial clients.</p>
-                
+
                 <div class="testimonial-container-wrapper" id="carousel-container">
                     <button id="prevBtn" class="nav-btn" aria-label="Previous review">←</button>
                     <button id="nextBtn" class="nav-btn" aria-label="Next review">→</button>
@@ -1036,25 +1069,25 @@
         </section>
 
         <section>
-            <div class="container why-grid">
-                <div class="why-image"></div>
+            <div class="container why-grid reveal">
+                <div class="why-image parallax-bg"></div>
                 <div>
                     <span class="eyebrow">What we do</span>
                     <h3>Why Choose Us</h3>
                     <p>Fast service, professional workmanship, clear communication, and fair estimates — all in one place.</p>
-                    <div class="why-points">
-                        <div class="why-card"><h4>Professional</h4><p>Skilled work with neat finishing.</p></div>
-                        <div class="why-card"><h4>Genius Workers</h4><p>Quick diagnosis and efficient repair.</p></div>
+                    <div class="why-points stagger-parent">
+                        <div class="why-card reveal"><h4>Professional</h4><p>Skilled work with neat finishing.</p></div>
+                        <div class="why-card reveal"><h4>Genius Workers</h4><p>Quick diagnosis and efficient repair.</p></div>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="contact">
-            <div class="container faq-grid">
+            <div class="container faq-grid reveal">
                 <div>
                     <span class="eyebrow">Our FAQs</span>
-                    <h2 class="section-title" style="text-align:left; margin:10px 0 24px;">Frequently Asked Questions</h2>
+                    <h2 class="section-title scale-blur" style="text-align:left; margin:10px 0 24px;">Frequently Asked Questions</h2>
                     <details open>
                         <summary>How fast can you respond to emergencies? <span>+</span></summary>
                         <div class="answer">Emergency calls are prioritized first, and same-day support can be offered depending on your location and job type.</div>
@@ -1115,13 +1148,174 @@
         <div class="container copyright">© 2026 Plumbing. All rights reserved.<br><br>Designed and developed by Sasiru Mindaka</div>
     </footer>
 
+    <!-- ─── ALL INSPECT PROTECTION & PAGE TOP ON REFRESH ─── -->
+    <script>
+        (function() {
+            // ── 1. DISABLE RIGHT-CLICK CONTEXT MENU ──
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // ── 2. DISABLE KEYBOARD SHORTCUTS FOR INSPECT ──
+            document.addEventListener('keydown', function(e) {
+                // F12
+                if (e.key === 'F12' || e.keyCode === 123) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // Ctrl+Shift+I (DevTools)
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.keyCode === 73)) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // Ctrl+Shift+J (Console)
+                if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.keyCode === 74)) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // Ctrl+U (View Source)
+                if (e.ctrlKey && (e.key === 'U' || e.keyCode === 85)) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // Ctrl+C (Copy) — prevent on whole page but allow on inputs/textarea
+                if (e.ctrlKey && (e.key === 'c' || e.keyCode === 67)) {
+                    const target = e.target;
+                    if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                // Ctrl+V (Paste) — prevent on whole page but allow on inputs/textarea
+                if (e.ctrlKey && (e.key === 'v' || e.keyCode === 86)) {
+                    const target = e.target;
+                    if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                // Ctrl+X (Cut) — prevent on whole page but allow on inputs/textarea
+                if (e.ctrlKey && (e.key === 'x' || e.keyCode === 88)) {
+                    const target = e.target;
+                    if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                // Ctrl+S (Save) — prevent page saving
+                if (e.ctrlKey && (e.key === 's' || e.keyCode === 83)) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // Ctrl+P (Print) — optional: prevent printing
+                if (e.ctrlKey && (e.key === 'p' || e.keyCode === 80)) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // Ctrl+H (History) — optional
+                if (e.ctrlKey && (e.key === 'h' || e.keyCode === 72)) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // Ctrl+Shift+C (Inspect Element)
+                if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.keyCode === 67)) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // ── 3. DISABLE DRAG & SELECTION ON NON-INPUT ELEMENTS ──
+            document.addEventListener('dragstart', function(e) {
+                const target = e.target;
+                if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // ── 4. DISABLE SELECTION ON NON-INPUT ELEMENTS ──
+            document.addEventListener('selectstart', function(e) {
+                const target = e.target;
+                if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // ── 5. PAGE LOADS AT TOP ON REFRESH ──
+            if (window.location.hash === '') {
+                window.scrollTo(0, 0);
+            }
+
+            // Also ensure any initial load with hash still scrolls smoothly to top
+            // and then to the hash anchor after a tiny delay
+            if (window.location.hash) {
+                // Store the hash target
+                const hash = window.location.hash;
+                // First scroll to top instantly
+                window.scrollTo(0, 0);
+                // Then after a micro-tick, scroll to the hash anchor smoothly
+                setTimeout(function() {
+                    const target = document.querySelector(hash);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 50);
+            }
+
+            // ── 6. OVERRIDE console.log, console.warn, console.error to prevent misuse ──
+            // (Only if you want to prevent console spam — commented out by default)
+            // if (typeof console !== 'undefined') {
+            //     console.log = function() {};
+            //     console.warn = function() {};
+            //     console.error = function() {};
+            // }
+
+            // ── 7. DETECT DEVTOOLS OPENING (via element) ──
+            // This is a lightweight detection that can be expanded
+            (function detectDevTools() {
+                let devtoolsOpen = false;
+                const element = new Image();
+                Object.defineProperty(element, 'id', {
+                    get: function() {
+                        devtoolsOpen = true;
+                        // Optionally redirect or show a message
+                        // alert('Developer tools are not allowed on this site.');
+                        return '';
+                    }
+                });
+                setInterval(function() {
+                    devtoolsOpen = false;
+                    console.log('%c', element);
+                    console.clear();
+                    if (devtoolsOpen) {
+                        // Optional: take action when devtools is open
+                        // window.location.href = 'about:blank';
+                    }
+                }, 1000);
+            })();
+
+        })();
+    </script>
+
     <script>
         // 1. HERO SLIDER LOGIC
         (function() {
             const images = [
-                'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?auto=format&fit=crop&w=1600&q=80',
-                'https://images.unsplash.com/photo-1585762652064-199f37e2b35e?auto=format&fit=crop&w=1600&q=80',
-                'https://images.unsplash.com/photo-1605773527852-c546a8584ea3?auto=format&fit=crop&w=1600&q=80'
+                'https://images.unsplash.com/photo-1553265381-674034b34554?q=80&w=1580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://plus.unsplash.com/premium_photo-1750594941118-145ef7a1791d?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
             ];
             const container = document.getElementById('heroSlider');
             const dotsContainer = document.getElementById('sliderDots');
@@ -1350,6 +1544,127 @@
             if(closeBtn) closeBtn.addEventListener('click', toggle);
             if(overlay) overlay.addEventListener('click', toggle);
             panel.querySelectorAll('a').forEach(l => l.addEventListener('click', toggle));
+        })();
+    </script>
+
+    <!-- INJECTED SCROLL ANIMATIONS SCRIPT -->
+    <script>
+        (function() {
+            // ── 1. REVEAL & SCALE-BLUR OBSERVER ──
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        // simple reveal
+                        if (el.classList.contains('reveal') && !el.classList.contains('revealed')) {
+                            el.classList.add('revealed');
+                            // clean up after transition (remove .reveal to avoid hover interference)
+                            el.addEventListener('transitionend', function handler() {
+                                el.classList.remove('reveal');
+                                el.removeEventListener('transitionend', handler);
+                            });
+                        }
+                        // scale-blur
+                        if (el.classList.contains('scale-blur') && !el.classList.contains('revealed')) {
+                            el.classList.add('revealed');
+                        }
+                        // stop observing once revealed
+                        if (!el.classList.contains('stagger-parent')) {
+                            revealObserver.unobserve(el);
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -10% 0px'
+            });
+
+            // Observe all elements with .reveal or .scale-blur (except stagger-parent children, which are handled separately)
+            document.querySelectorAll('.reveal:not(.stagger-parent .reveal), .scale-blur').forEach(el => revealObserver.observe(el));
+
+            // ── 2. STAGGERED CHILDREN LOGIC ──
+            const staggerParents = document.querySelectorAll('.stagger-parent');
+            staggerParents.forEach(parent => {
+                const children = parent.querySelectorAll(':scope > .reveal');
+                if (children.length === 0) return;
+
+                // initial hide
+                children.forEach(child => child.classList.add('reveal'));
+
+                const staggerObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // stagger children
+                            children.forEach((child, i) => {
+                                child.style.transitionDelay = `${i * 100}ms`;
+                                // force reflow then trigger
+                                requestAnimationFrame(() => {
+                                    child.classList.add('revealed');
+                                });
+                            });
+                            // unobserve parent
+                            staggerObserver.unobserve(parent);
+                            // clean up children after all transitions
+                            const lastDelay = (children.length - 1) * 100;
+                            const totalDuration = 800; // ms transition
+                            setTimeout(() => {
+                                children.forEach(child => {
+                                    child.classList.remove('reveal');
+                                    child.style.transitionDelay = '';
+                                });
+                            }, lastDelay + totalDuration + 50);
+                        }
+                    });
+                }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+
+                staggerObserver.observe(parent);
+            });
+
+            // ── 3. SUBTLE PARALLAX (requestAnimationFrame) ──
+            const parallaxElements = document.querySelectorAll('.parallax');
+            const parallaxBgElements = document.querySelectorAll('.parallax-bg');
+            let ticking = false;
+
+            function updateParallax() {
+                const scrollY = window.scrollY;
+
+                // hero slider parallax (move slower than scroll)
+                parallaxElements.forEach(el => {
+                    // shift upward based on scroll (negative translateY = move up)
+                    const shift = scrollY * 0.15;
+                    el.style.transform = `translateY(${shift}px)`;
+                });
+
+                // background image parallax for .why-image etc.
+                parallaxBgElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    // only process if element is near viewport
+                    if (rect.bottom < -200 || rect.top > windowHeight + 200) return;
+
+                    // how far the element's center is from the viewport center (0 to 1)
+                    const elementCenter = rect.top + rect.height / 2;
+                    const viewCenter = windowHeight / 2;
+                    let progress = (elementCenter - viewCenter) / (windowHeight * 0.8);
+                    progress = Math.max(-0.5, Math.min(0.5, progress));
+
+                    // shift background vertical position (start at 50% center, move +/- 10%)
+                    const bgY = 50 + progress * 15;
+                    el.style.backgroundPositionY = `${bgY}%`;
+                });
+
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            // initial call
+            updateParallax();
         })();
     </script>
 </body>
