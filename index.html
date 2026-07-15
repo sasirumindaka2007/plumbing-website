@@ -54,6 +54,15 @@
             --radius: 24px;
             --radius-sm: 18px;
             --max: 1180px;
+            --Amsterdam-Handwriting: "Amsterdam-Handwriting", "Amsterdam-Handwriting", "Arial Black", sans-serif;
+        }
+
+        @font-face {
+            font-family: 'Amsterdam-Handwriting';
+            src: url('./Amsterdam Handwriting.ttf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
         }
 
         .container {
@@ -840,11 +849,15 @@
         }
         .footer-grid ul { 
             display: grid; 
-            gap: 10px; 
+            gap: 10px;
+            list-style: none;  /* Remove bullets */
+            padding: 0;        /* Reset default ul padding */
+            margin: 0;         /* Reset default ul margin */
         }
         .footer-grid a { 
             color: #c8ced8; 
-            font-size: 0.92rem; 
+            font-size: 0.92rem;
+            text-decoration: none;  /* Remove underline */
         }
         .footer-grid a:hover { 
             color: #fff; 
@@ -856,6 +869,11 @@
             text-align: center;
             color: #9ca6b5;
             font-size: 0.88rem;
+        }
+        /* Corrected selector to match the HTML – previously .container-copyright span */
+        .copyright span {
+            font-family: var(--Amsterdam-Handwriting), cursive; /* Added fallback */
+            font-size: 1.05rem; 
         }
 
         /* ── MAXIMUM MOBILE RESPONSIVENESS ── */
@@ -1117,36 +1135,40 @@
         </section>
     </main>
 
-    <footer>
-        <div class="container footer-grid">
-            <div>
-                <h4>Plumbing</h4>
-                <p>Dependable plumbing solutions built for speed, trust, and clean results.</p>
-            </div>
-            <div>
-                <h4>Latest News</h4>
-                <ul>
-                    <li><a href="#blog">Fast fixes for leaks</a></li>
-                    <li><a href="#blog">Tips for bathrooms</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Contact Info</h4>
-                <ul>
-                    <li>Street 123, Your City</li>
-                    <li><a class="footer-phone" href="tel:+94786281718">078 628 1718</a></li>
-                </ul>
-            </div>
+<footer>
+    <div class="container footer-grid">
+        <div>
+            <h4>Plumbing</h4>
+            <p>Dependable plumbing solutions built for speed, trust, and clean results.</p>
         </div>
-        <div class="container copyright">© 2026 Plumbing. All rights reserved.<br><br>Designed and developed by Sasiru Mindaka</div>
-    </footer>
+        <div>
+            <h4>Latest News</h4>
+            <ul>
+                <li><a href="#blog">Fast fixes for leaks</a></li>
+                <li><a href="#blog">Tips for bathrooms</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Contact Info</h4>
+            <ul>
+                <li>Street 123, Your City</li>
+                <li><a class="footer-phone" href="tel:+94786281718">078 628 1718</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Changed class: now uses both .container (for layout) and .copyright (for styling) -->
+    <div class="container copyright">
+        © 2026 Plumbing. All rights reserved.<br><br>
+        Designed and developed by <span>Sasiru Mindaka</span>
+    </div>
+</footer>
 
     <!-- ─── ALL INSPECT PROTECTION & PAGE TOP ON REFRESH ─── -->
     <script>
