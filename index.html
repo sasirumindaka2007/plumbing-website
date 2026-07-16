@@ -55,6 +55,15 @@
             --radius-sm: 18px;
             --max: 1180px;
             --Amsterdam-Handwriting: "Amsterdam-Handwriting", "Amsterdam-Handwriting", "Arial Black", sans-serif;
+
+            /* ── FAQ Accordion Variables ── */
+            --bg-card: #ffffff;
+            --text-primary: #101820;
+            --text-muted: #6c7a89;
+            --radius-md: 18px;
+            --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: 0.2s ease;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         @font-face {
@@ -757,62 +766,75 @@
         .why-card h4 { margin: 8px 0 4px; font-size: 1.05rem; }
         .why-card p { margin: 0; font-size: 0.88rem; color: var(--muted); }
 
-        /* ── FAQ & ACCORDION (Enhanced Sliding Height Animations) ── */
+        /* ============================================
+           FAQ ACCORDION — Smooth Max-Height Animation
+           ============================================ */
         .faq-grid {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
             gap: 32px;
             align-items: start;
         }
-        details {
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 18px;
-            margin-bottom: 14px;
-            overflow: hidden;
-            box-shadow: 0 10px 28px rgba(15, 31, 57, 0.02);
-            /* Height Slider එක සුමටව සිදුවීම සඳහා */
-            transition: border-color 0.35s ease, box-shadow 0.35s ease, height 0.38s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-        details[open] {
-            border-color: var(--blue);
-            box-shadow: 0 12px 32px rgba(29, 134, 255, 0.08);
-        }
-        summary {
-            cursor: pointer;
-            list-style: none;
-            padding: 18px 22px;
-            font-weight: 700;
+        .faq-list {
+            max-width: 750px;
+            margin: 0 auto;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+        }
+        .faq-item.active {
+            border-color: var(--gold);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.1);
+        }
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
             justify-content: space-between;
-            gap: 10px;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            transition: color var(--transition-fast);
             user-select: none;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-family: var(--font-body);
         }
-        summary::-webkit-details-marker { display: none; }
-
-        summary span {
-            display: inline-block;
-            font-size: 1.3rem;
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s ease;
+        .faq-question:hover {
+            color: var(--gold);
         }
-        details[open] summary span {
+        .faq-icon {
+            font-size: 1.4rem;
+            transition: transform var(--transition-smooth);
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+        .faq-item.active .faq-icon {
             transform: rotate(45deg);
-            color: var(--blue);
         }
-
-        details .answer {
-            padding: 0 22px 22px;
-            color: var(--muted);
-            font-size: 0.98rem;
-            line-height: 1.6;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease, padding 0.45s ease;
+            padding: 0 24px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.7;
         }
-        details[open] .answer {
-            opacity: 1;
-            transform: translateY(0);
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 24px 20px;
         }
 
         .cta-stack { display: grid; gap: 16px; }
@@ -850,14 +872,14 @@
         .footer-grid ul { 
             display: grid; 
             gap: 10px;
-            list-style: none;  /* Remove bullets */
-            padding: 0;        /* Reset default ul padding */
-            margin: 0;         /* Reset default ul margin */
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
         .footer-grid a { 
             color: #c8ced8; 
             font-size: 0.92rem;
-            text-decoration: none;  /* Remove underline */
+            text-decoration: none;
         }
         .footer-grid a:hover { 
             color: #fff; 
@@ -870,9 +892,8 @@
             color: #9ca6b5;
             font-size: 0.88rem;
         }
-        /* Corrected selector to match the HTML – previously .container-copyright span */
         .copyright span {
-            font-family: var(--Amsterdam-Handwriting), cursive; /* Added fallback */
+            font-family: var(--Amsterdam-Handwriting), cursive;
             font-size: 1.05rem; 
         }
 
@@ -896,10 +917,12 @@
             #prevBtn { left: 35%; }
             #nextBtn { right: 35%; }
             .callbox { bottom: 16px; right: 16px; min-width: 140px; padding: 10px; }
+            .faq-question { padding: 16px 18px; font-size: 0.9rem; }
+            .faq-answer { padding: 0 18px; }
+            .faq-item.active .faq-answer { padding: 0 18px 16px; }
         }
 
         /* ── SCROLL ANIMATIONS (INJECTED) ── */
-        /* Reveal base: hidden until observed */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -912,7 +935,6 @@
             transform: translateY(0);
         }
 
-        /* Scale & un-blur for titles and hero elements */
         .scale-blur {
             transform: scale(0.95);
             filter: blur(5px);
@@ -925,7 +947,6 @@
             filter: blur(0);
         }
 
-        /* Parallax elements: will be moved via JS */
         .parallax,
         .parallax-bg {
             will-change: transform;
@@ -1104,24 +1125,45 @@
             </div>
         </section>
 
+        <!-- ============================================
+             FAQ SECTION — New Accordion Animation
+             ============================================ -->
         <section id="contact">
             <div class="container faq-grid reveal">
                 <div>
                     <span class="eyebrow">Our FAQs</span>
                     <h2 class="section-title scale-blur" style="text-align:left; margin:10px 0 24px;">Frequently Asked Questions</h2>
-                    <details open>
-                        <summary>How fast can you respond to emergencies? <span>+</span></summary>
-                        <div class="answer">Emergency calls are prioritized first, and same-day support can be offered depending on your location and job type.</div>
-                    </details>
-                    <details>
-                        <summary>Do you provide quotes before work starts? <span>+</span></summary>
-                        <div class="answer">Yes. We can inspect the issue, explain the fix, and share a clear estimate before any work begins.</div>
-                    </details>
-                    <details>
-                        <summary>Is there a warranty on your plumbing fixes? <span>+</span></summary>
-                        <div class="answer">Absolutely. All our premium installations and repair services come with a standard breakdown guarantee.</div>
-                    </details>
+
+                    <div class="faq-list">
+                        <!-- FAQ Item 1 (open by default) -->
+                        <div class="faq-item active">
+                            <button class="faq-question">
+                                How fast can you respond to emergencies?
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">Emergency calls are prioritized first, and same-day support can be offered depending on your location and job type.</div>
+                        </div>
+
+                        <!-- FAQ Item 2 -->
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                Do you provide quotes before work starts?
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">Yes. We can inspect the issue, explain the fix, and share a clear estimate before any work begins.</div>
+                        </div>
+
+                        <!-- FAQ Item 3 -->
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                Is there a warranty on your plumbing fixes?
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">Absolutely. All our premium installations and repair services come with a standard breakdown guarantee.</div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="cta-stack">
                     <div class="promo gold">
                         <h4>We Have 30+ Years of Experience</h4>
@@ -1166,7 +1208,6 @@
             </ul>
         </div>
     </div>
-    <!-- Changed class: now uses both .container (for layout) and .copyright (for styling) -->
     <div class="container copyright">
         © 2026 Plumbing. All rights reserved.<br><br>
         Designed and developed by <span>Sasiru Mindaka</span>
@@ -1176,39 +1217,28 @@
     <!-- ─── ALL INSPECT PROTECTION & PAGE TOP ON REFRESH ─── -->
     <script>
         (function() {
-            // ── 1. DISABLE RIGHT-CLICK CONTEXT MENU ──
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 return false;
             });
 
-            // ── 2. DISABLE KEYBOARD SHORTCUTS FOR INSPECT ──
             document.addEventListener('keydown', function(e) {
-                // F12
                 if (e.key === 'F12' || e.keyCode === 123) {
                     e.preventDefault();
                     return false;
                 }
-
-                // Ctrl+Shift+I (DevTools)
                 if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.keyCode === 73)) {
                     e.preventDefault();
                     return false;
                 }
-
-                // Ctrl+Shift+J (Console)
                 if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.keyCode === 74)) {
                     e.preventDefault();
                     return false;
                 }
-
-                // Ctrl+U (View Source)
                 if (e.ctrlKey && (e.key === 'U' || e.keyCode === 85)) {
                     e.preventDefault();
                     return false;
                 }
-
-                // Ctrl+C (Copy) — prevent on whole page but allow on inputs/textarea
                 if (e.ctrlKey && (e.key === 'c' || e.keyCode === 67)) {
                     const target = e.target;
                     if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
@@ -1216,8 +1246,6 @@
                         return false;
                     }
                 }
-
-                // Ctrl+V (Paste) — prevent on whole page but allow on inputs/textarea
                 if (e.ctrlKey && (e.key === 'v' || e.keyCode === 86)) {
                     const target = e.target;
                     if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
@@ -1225,8 +1253,6 @@
                         return false;
                     }
                 }
-
-                // Ctrl+X (Cut) — prevent on whole page but allow on inputs/textarea
                 if (e.ctrlKey && (e.key === 'x' || e.keyCode === 88)) {
                     const target = e.target;
                     if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
@@ -1234,33 +1260,24 @@
                         return false;
                     }
                 }
-
-                // Ctrl+S (Save) — prevent page saving
                 if (e.ctrlKey && (e.key === 's' || e.keyCode === 83)) {
                     e.preventDefault();
                     return false;
                 }
-
-                // Ctrl+P (Print) — optional: prevent printing
                 if (e.ctrlKey && (e.key === 'p' || e.keyCode === 80)) {
                     e.preventDefault();
                     return false;
                 }
-
-                // Ctrl+H (History) — optional
                 if (e.ctrlKey && (e.key === 'h' || e.keyCode === 72)) {
                     e.preventDefault();
                     return false;
                 }
-
-                // Ctrl+Shift+C (Inspect Element)
                 if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.keyCode === 67)) {
                     e.preventDefault();
                     return false;
                 }
             });
 
-            // ── 3. DISABLE DRAG & SELECTION ON NON-INPUT ELEMENTS ──
             document.addEventListener('dragstart', function(e) {
                 const target = e.target;
                 if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
@@ -1269,7 +1286,6 @@
                 }
             });
 
-            // ── 4. DISABLE SELECTION ON NON-INPUT ELEMENTS ──
             document.addEventListener('selectstart', function(e) {
                 const target = e.target;
                 if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
@@ -1278,19 +1294,13 @@
                 }
             });
 
-            // ── 5. PAGE LOADS AT TOP ON REFRESH ──
             if (window.location.hash === '') {
                 window.scrollTo(0, 0);
             }
 
-            // Also ensure any initial load with hash still scrolls smoothly to top
-            // and then to the hash anchor after a tiny delay
             if (window.location.hash) {
-                // Store the hash target
                 const hash = window.location.hash;
-                // First scroll to top instantly
                 window.scrollTo(0, 0);
-                // Then after a micro-tick, scroll to the hash anchor smoothly
                 setTimeout(function() {
                     const target = document.querySelector(hash);
                     if (target) {
@@ -1299,24 +1309,12 @@
                 }, 50);
             }
 
-            // ── 6. OVERRIDE console.log, console.warn, console.error to prevent misuse ──
-            // (Only if you want to prevent console spam — commented out by default)
-            // if (typeof console !== 'undefined') {
-            //     console.log = function() {};
-            //     console.warn = function() {};
-            //     console.error = function() {};
-            // }
-
-            // ── 7. DETECT DEVTOOLS OPENING (via element) ──
-            // This is a lightweight detection that can be expanded
             (function detectDevTools() {
                 let devtoolsOpen = false;
                 const element = new Image();
                 Object.defineProperty(element, 'id', {
                     get: function() {
                         devtoolsOpen = true;
-                        // Optionally redirect or show a message
-                        // alert('Developer tools are not allowed on this site.');
                         return '';
                     }
                 });
@@ -1325,8 +1323,6 @@
                     console.log('%c', element);
                     console.clear();
                     if (devtoolsOpen) {
-                        // Optional: take action when devtools is open
-                        // window.location.href = 'about:blank';
                     }
                 }, 1000);
             })();
@@ -1486,67 +1482,27 @@
             updateCarousel();
         })();
 
-        // 4. PREMIUM FAQ ACCORDION WITH TRUE HEIGHT SLIDE & AUTO-SCROLL
+        // 4. FAQ ACCORDION — Smooth Max-Height Toggle
         (function() {
-            const faqs = document.querySelectorAll('details');
-            
-            faqs.forEach(faq => {
-                const summary = faq.querySelector('summary');
-                const answer = faq.querySelector('.answer');
-                
-                summary.addEventListener('click', (e) => {
-                    e.preventDefault(); // බ්‍රවුසරයේ native ක්ෂණික jump එක නවත්වයි
-                    
-                    const isOpen = faq.hasAttribute('open');
-                    
-                    if (isOpen) {
-                        // වැසීමේ සුමට Slider ඇනිමේෂන් එක (Slide Up)
-                        const startHeight = faq.offsetHeight;
-                        faq.style.height = `${startHeight}px`;
-                        
-                        faq.offsetHeight; // Reflow forcing
-                        
-                        faq.style.height = `${summary.offsetHeight}px`;
-                        answer.style.opacity = '0';
-                        answer.style.transform = 'translateY(-10px)';
-                        
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const questionBtn = item.querySelector('.faq-question');
+
+                questionBtn.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    // Close all FAQ items
+                    faqItems.forEach(other => other.classList.remove('active'));
+
+                    // Open the clicked one (if it wasn't already open)
+                    if (!isActive) {
+                        item.classList.add('active');
+
+                        // Smooth scroll to the opened question
                         setTimeout(() => {
-                            faq.removeAttribute('open');
-                            faq.style.height = '';
-                        }, 380);
-                    } else {
-                        // වෙනත් විවෘතව ඇති සියලුම FAQ වසා දැමීම (Accordion Effect)
-                        faqs.forEach(other => {
-                            if (other !== faq && other.hasAttribute('open')) {
-                                other.style.height = `${other.querySelector('summary').offsetHeight}px`;
-                                other.querySelector('.answer').style.opacity = '0';
-                                other.querySelector('.answer').style.transform = 'translateY(-10px)';
-                                setTimeout(() => {
-                                    other.removeAttribute('open');
-                                    other.style.height = '';
-                                }, 380);
-                            }
-                        });
-                        
-                        // විවෘත වීමේ සුමට Slider ඇනිමේෂන් එක (Slide Down)
-                        faq.setAttribute('open', '');
-                        const targetHeight = faq.scrollHeight;
-                        
-                        faq.style.height = `${summary.offsetHeight}px`;
-                        answer.style.opacity = '0';
-                        answer.style.transform = 'translateY(-10px)';
-                        
-                        faq.offsetHeight; // Reflow forcing
-                        
-                        faq.style.height = `${targetHeight}px`;
-                        answer.style.opacity = '1';
-                        answer.style.transform = 'translateY(0)';
-                        
-                        setTimeout(() => {
-                            faq.style.height = '';
-                            // ප්‍රශ්නය තිරය මැදට සුමටව ගෙන ඒම (Auto-Scroll)
-                            faq.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        }, 380);
+                            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 100);
                     }
                 });
             });
@@ -1575,25 +1531,20 @@
     <!-- INJECTED SCROLL ANIMATIONS SCRIPT -->
     <script>
         (function() {
-            // ── 1. REVEAL & SCALE-BLUR OBSERVER ──
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const el = entry.target;
-                        // simple reveal
                         if (el.classList.contains('reveal') && !el.classList.contains('revealed')) {
                             el.classList.add('revealed');
-                            // clean up after transition (remove .reveal to avoid hover interference)
                             el.addEventListener('transitionend', function handler() {
                                 el.classList.remove('reveal');
                                 el.removeEventListener('transitionend', handler);
                             });
                         }
-                        // scale-blur
                         if (el.classList.contains('scale-blur') && !el.classList.contains('revealed')) {
                             el.classList.add('revealed');
                         }
-                        // stop observing once revealed
                         if (!el.classList.contains('stagger-parent')) {
                             revealObserver.unobserve(el);
                         }
@@ -1604,34 +1555,27 @@
                 rootMargin: '0px 0px -10% 0px'
             });
 
-            // Observe all elements with .reveal or .scale-blur (except stagger-parent children, which are handled separately)
             document.querySelectorAll('.reveal:not(.stagger-parent .reveal), .scale-blur').forEach(el => revealObserver.observe(el));
 
-            // ── 2. STAGGERED CHILDREN LOGIC ──
             const staggerParents = document.querySelectorAll('.stagger-parent');
             staggerParents.forEach(parent => {
                 const children = parent.querySelectorAll(':scope > .reveal');
                 if (children.length === 0) return;
 
-                // initial hide
                 children.forEach(child => child.classList.add('reveal'));
 
                 const staggerObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            // stagger children
                             children.forEach((child, i) => {
                                 child.style.transitionDelay = `${i * 100}ms`;
-                                // force reflow then trigger
                                 requestAnimationFrame(() => {
                                     child.classList.add('revealed');
                                 });
                             });
-                            // unobserve parent
                             staggerObserver.unobserve(parent);
-                            // clean up children after all transitions
                             const lastDelay = (children.length - 1) * 100;
-                            const totalDuration = 800; // ms transition
+                            const totalDuration = 800;
                             setTimeout(() => {
                                 children.forEach(child => {
                                     child.classList.remove('reveal');
@@ -1645,7 +1589,6 @@
                 staggerObserver.observe(parent);
             });
 
-            // ── 3. SUBTLE PARALLAX (requestAnimationFrame) ──
             const parallaxElements = document.querySelectorAll('.parallax');
             const parallaxBgElements = document.querySelectorAll('.parallax-bg');
             let ticking = false;
@@ -1653,27 +1596,21 @@
             function updateParallax() {
                 const scrollY = window.scrollY;
 
-                // hero slider parallax (move slower than scroll)
                 parallaxElements.forEach(el => {
-                    // shift upward based on scroll (negative translateY = move up)
                     const shift = scrollY * 0.15;
                     el.style.transform = `translateY(${shift}px)`;
                 });
 
-                // background image parallax for .why-image etc.
                 parallaxBgElements.forEach(el => {
                     const rect = el.getBoundingClientRect();
                     const windowHeight = window.innerHeight;
-                    // only process if element is near viewport
                     if (rect.bottom < -200 || rect.top > windowHeight + 200) return;
 
-                    // how far the element's center is from the viewport center (0 to 1)
                     const elementCenter = rect.top + rect.height / 2;
                     const viewCenter = windowHeight / 2;
                     let progress = (elementCenter - viewCenter) / (windowHeight * 0.8);
                     progress = Math.max(-0.5, Math.min(0.5, progress));
 
-                    // shift background vertical position (start at 50% center, move +/- 10%)
                     const bgY = 50 + progress * 15;
                     el.style.backgroundPositionY = `${bgY}%`;
                 });
@@ -1688,7 +1625,6 @@
                 }
             }, { passive: true });
 
-            // initial call
             updateParallax();
         })();
     </script>
